@@ -7,6 +7,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import AddEmployee from './components/AddEmployee.jsx';
+import Employee from './components/Employee.jsx';
+import AddCar from './components/AddCar.jsx';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +18,15 @@ const router = createBrowserRouter([
   {
     path: "/addemployee",
     element: <AddEmployee />
-  }
+  },
+  {
+    path: "/employee/:id",
+    element: <Employee />
+  },
+  // {
+  //   path: "/addcar",
+  //   element: <AddCar />
+  // }
 ]);
 
 createRoot(document.getElementById('root')).render(

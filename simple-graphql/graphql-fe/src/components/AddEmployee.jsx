@@ -1,6 +1,7 @@
-import { ApolloClient, gql, InMemoryCache } from '@apollo/client';
-import React, { use } from 'react'
+import { gql } from '@apollo/client';
+import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { client } from '../GraphQl/SpringClient';
 
 const CREATE_USER = gql`
   mutation createEmployee($firstName: String!, $lastName: String!, $job: String!, $joinDate: String!) {
@@ -13,10 +14,6 @@ const CREATE_USER = gql`
 export default function AddEmployee() {
     const [error, setError] = React.useState(null);
     const navigate = useNavigate();
-    const client = new ApolloClient({
-        uri: 'http://localhost:8080/graphql',
-        cache: new InMemoryCache(),
-    });
     const today = new Date().toISOString().split('T')[0];
 
     const [form, setForm] = React.useState({
@@ -45,7 +42,7 @@ export default function AddEmployee() {
                 variables: {firstName: form.firstName, lastName: form.lastName, job: form.job, joinDate: form.joinDate},
             });
             console.log('Employee added:', result.data.createEmployee);
-            navigate('/');
+            window.location.href = '/';
         } catch (err) {
             setError(err.message);
         }

@@ -39,5 +39,5 @@ input CarInput {
     brand: String!
     model: String!
     color: String!
-    employeeId: Int
+    employeeId: Int!
 }

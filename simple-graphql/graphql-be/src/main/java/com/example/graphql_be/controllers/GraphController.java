@@ -37,7 +37,7 @@ public class GraphController {
 
     @QueryMapping
     public Employee employeeById(@Argument int id) {
-        return employeeRepository.findById(id).orElse(null);
+        return employeeRepository.findById(id).orElseThrow(()->new EmployeeNotFoundException("employee not found for the id: " + id));
     }
 
     @QueryMapping

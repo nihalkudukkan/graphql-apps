@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import { Link } from 'react-router-dom';
+import { gql } from '@apollo/client';
+import { Link, useNavigate } from 'react-router-dom';
+import { client } from './GraphQl/SpringClient';
 
 function App() {
+  const navigate = useNavigate();
   const [employees, setEmployees] = useState([])
   useEffect(()=>{
-    const client = new ApolloClient({
-      uri: 'http://localhost:8080/graphql',
-      cache: new InMemoryCache(),
-    });
 
     client
       .query({
-        query: gql`
+        query: gql(`
           query {
             allEmployees {
               id
@@ -22,7 +20,7 @@ function App() {
               joinDate
             }
           }
-        `,
+        `),
       })
       .then((result) => setEmployees(result.data.allEmployees))
       .catch((error) => console.error(error));
@@ -44,16 +42,17 @@ function App() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Join Date</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {employees.map((employee) => (
-              <tr key={employee.id}>
-                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-900">{employee.id}</td>
-                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-900">{employee.firstName}</td>
-                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-900">{employee.lastName}</td>
-                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-900">{employee.joinDate}</td>
+        
+        {employees.map((employee) => (
+            <tbody key={employee.id} className="bg-white divide-y divide-gray-200 cursor-pointer hover:bg-amber-50" onClick={() => navigate(`/employee/${employee.id}`)}>
+              <tr >
+                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-900 tracking-wider">{employee.id}</td>
+                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-900 tracking-wider">{employee.firstName}</td>
+                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-900 tracking-wider">{employee.lastName}</td>
+                <td className="px-6 py-3 whitespace-nowrap text-sm text-gray-900 tracking-wider">{employee.joinDate}</td>
               </tr>
-            ))}
-          </tbody>
+            </tbody>
+        ))}
         </table>
         </div>
       </div>
