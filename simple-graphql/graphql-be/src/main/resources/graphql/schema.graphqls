@@ -1,0 +1,43 @@
+type Query {
+    "get all employees"
+    allEmployees(pageNumber: Int = 0, size: Int = 0): [Employee]
+    "find employee by id"
+    employeeById(id: ID!): Employee
+    findAllCars(pageNumber: Int = 0, size: Int = 0): [Car]
+    findCarById(id: ID!): Car
+}
+
+type Employee {
+    id: ID
+    firstName: String
+    lastName: String
+    joinDate: String
+    cars: [Car]
+}
+
+type Car {
+    id: ID
+    brand: String
+    model: String
+    color: String
+    owner: Employee
+}
+
+type Mutation {
+    createEmployee(input: EmployeeInput!): Employee
+    createCar(input: CarInput!): Car
+}
+
+input EmployeeInput {
+    firstName: String!
+    lastName: String!
+    job: String!
+    joinDate: String!
+}
+
+input CarInput {
+    brand: String!
+    model: String!
+    color: String!
+    employeeId: Int
+}
